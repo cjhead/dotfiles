@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+alias ls='exa --group-directories-first'
+alias grep="rg"
+alias ip="ip -color=auto"
+alias vim="nvim"
+alias cat='bat'
+alias ncdu="ncdu --color dark"
+alias crypto="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets -V"
+
+# Dotfiles
+alias dots="/usr/bin/git --git-dir=$HOME/repos/dotfiles/ --work-tree=$HOME"
+
+# Git
+alias glog='git log --oneline --decorate --graph'
+
+# Fun
+alias starwars="telnet towel.blinkenlights.nl"

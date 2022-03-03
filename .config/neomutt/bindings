@@ -1,0 +1,14 @@
+# vim: filetype=neomuttrc
+
+# Ctrl-Shift-P - Previous Mailbox
+bind index,pager \CK sidebar-prev
+# Ctrl-Shift-N - Next Mailbox
+bind index,pager \CJ sidebar-next
+# Ctrl-Shift-O - Open Highlighted Mailbox
+bind index,pager \CO sidebar-open
+
+# urlview
+macro index,pager \cb "<pipe-message>urlscan -cd<enter>" "call urlscan to extract \
+URLs out of a message"
+macro attach,compose \cb "<pipe-entry>urlscan -cd<enter>" "call urlscan to extract \
+URLs out of a message"

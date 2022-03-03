@@ -1,0 +1,6 @@
+! Colorscheme
+#include "/home/carl/.Xresources.d/themes/nord"
+
+! Transparency (0-1)
+st.alpha: 0.95
+st.alphaUnfocused: 0.8

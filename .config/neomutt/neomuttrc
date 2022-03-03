@@ -1,0 +1,72 @@
+# Email Account Setup ---------------------------------------------------------
+set realname="Carl"
+set from="chead@linuxmail.org"
+
+set imap_user="chead@linuxmail.org"
+set imap_pass="`pass email`"
+
+set smtp_url="smtp://chead@linuxmail.org@smtp.mail.com:587/"
+set smtp_pass="`pass email`"
+
+set ssl_force_tls = yes
+
+# File sourcing ---------------------------------------------------------------
+source ~/.config/neomutt/mail_boxes
+source ~/.config/neomutt/gpgrc
+source ~/.config/neomutt/aliases
+source ~/.config/neomutt/colors
+source ~/.config/neomutt/auto_views
+source ~/.config/neomutt/sidebar
+source ~/.config/neomutt/macros
+source ~/.config/neomutt/bindings
+source ~/.config/neomutt/subscriptions
+source ~/.config/neomutt/auto_views
+source ~/.config/neomutt/headers
+source ~/.config/neomutt/hooks
+
+# File Locations --------------------------------------------------------------
+set alias_file="~/.config/neomutt/aliases"
+set header_cache="~/.cache/neomutt/"
+set message_cachedir="~/.cache/neomutt/"
+set mailcap_path="~/.config/neomutt/mailcap"
+set signature="~/.config/neomutt/signature"
+set attach_save_dir="~/downloads"
+
+# Mail Check ------------------------------------------------------------------
+set new_mail_command="notify-send 'New Email in %f' '%n new messages, %u unread' &"
+set mail_check_stats
+set mail_check=60
+set timeout=15
+
+# Mail Format -----------------------------------------------------------------
+set reverse_alias
+
+# Index Options ---------------------------------------------------------------
+set index_format="%4C %zs %zc %2M %{%b %d} %-15.15L %s"
+set use_threads=threads
+set sort=reverse-last-date
+set sort_aux=reverse-last-date
+set mime_forward=yes
+set fast_reply
+set forward_format = "Fwd: %s"
+set forward_quote
+set include
+set delete=yes
+set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac"
+set pager_stop
+
+# Collapses threads unless it contains a new message
+set collapse_all
+unset collapse_unread
+
+set auto_tag
+unset mark_old
+unset markers
+
+unset confirmappend
+
+# Determines mime type of octet-stream attachments by checking its filetype
+# extension. If a mime type can't be found, add it to /etc/mime.types.
+mime_lookup application/octet-stream
+
+alternative_order text/html text/enriched text/plain

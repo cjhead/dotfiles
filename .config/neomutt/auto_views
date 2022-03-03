@@ -1,0 +1,5 @@
+# vim: filetype=neomuttrc
+
+auto_view text/*
+auto_view application/rtf
+auto_view application/richtext

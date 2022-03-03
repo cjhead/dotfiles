@@ -1,0 +1,46 @@
+# Turn auto reload on or off
+auto-reload yes
+
+# Set automatic reload time in minutes
+#reload-time 30
+
+# Browser to open articles
+browser "brave %u"
+
+confirm-mark-all-feeds-read no
+confirm-mark-feed-read no
+
+# Set text width
+text-width 72
+
+# Maximum number of articles to keep per feed
+max-items 100
+
+# Set notification program
+notify-program "/usr/bin/notify-send"
+
+# Set to "yes" to always notify or set to "no" to only notify on new feeds or articles
+notify-always no
+
+# The number of parallel reload threads that shall be started when all feeds are reloaded.
+reload-threads 4
+
+show-read-feeds no
+show-read-articles no
+
+# The default path where articles shall be saved to.
+save-path "~/.config/newsboat/saved_articles"
+
+macro Y set browser "setsid -f st -e youtube-viewer --no-interactive %u" ; open-in-browser ; set browser "brave %u"
+macro y set browser "setsid -f st -e youtube-viewer --comments %u --order=relevance --no-interactive" ; open-in-browser ; set browser "surf-open.sh %u"
+macro 1 set browser "st -e mpv --vid=no -- %u &"; one; set browser "brave %u"
+
+include /usr/share/doc/newsboat/contrib/colorschemes/nord
+
+# Unbind Keys
+unbind-key j
+unbind-key k
+
+# Bind Keys
+bind-key j down
+bind-key k up

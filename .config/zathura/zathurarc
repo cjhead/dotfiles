@@ -1,0 +1,5 @@
+set guioptions ''
+set adjust-open 'width'
+set window-title-basename 'true'
+set window-title-page 'true'
+set statusbar-basename 'true'

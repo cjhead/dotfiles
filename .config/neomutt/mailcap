@@ -1,0 +1,13 @@
+text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 -collapse_br_tags -dump -underscore -trim_blank_lines -underline_links %s; nametemplate=%s.html; copiousoutput
+application/rtf; unrtf --html %s | w3m -dump -T text/html; copiousoutput
+application/richtext; unrtf --html %s | w3m -dump -T text/html; copiousoutput
+
+image/*; setsid -f sxiv %s
+
+video/*; setsid mpv --quiet %s &
+
+audio/*; mpv %s
+
+application/pdf; setsid -f zathura %s
+application/pgp-encrypted; gpg -d '%s'; copiousoutput
+application/pgp-keys; --import '%s'; copiousoutput

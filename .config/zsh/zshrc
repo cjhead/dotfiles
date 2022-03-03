@@ -1,0 +1,81 @@
+#!/bin/zsh
+
+# Useful Options
+setopt interactive_comments
+setopt extendedglob
+setopt nomatch
+setopt MENU_COMPLETE
+stty stop undef # Disable ctrl-s to freeze terminal
+zle_highlight=('paste:none') # no highlighted paste
+setopt autocd
+unsetopt beep
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+# Needs to stay here or else you'll get a warning
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+setopt NO_HUP # Allow background jobs to continue after exiting shell
+
+# Improve history recording
+HISTFILE=~/.cache/zsh/history
+HISTSIZE=100000
+SAVEHIST=100000
+
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt HIST_VERIFY               # Do not execute immediately upon history expansion.
+setopt APPEND_HISTORY            # append to history file
+setopt HIST_NO_STORE             # Don't store history commands
+
+# Basic auto/tab complete:
+fpath+=~/.config/zsh/completion
+zmodload zsh/complist
+autoload -U compinit; compinit
+_comp_options+=(globdots) # Include hidden files
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zsh/cache
+zstyle ':completion:*' menu select
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-dirs-first true
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# source "$ZDOTDIR/zsh-completions"
+
+# Modules
+zmodload -F zsh/stat b:zstat
+
+# Colors
+autoload -Uz colors && colors
+
+# Useful Functions
+source "$ZDOTDIR/zsh-functions"
+
+# Normal files to source
+zsh_add_file "zsh-vim-mode"
+zsh_add_file "zsh-aliases"
+source '/home/carl/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme'
+source ~/.local/share/icons-in-terminal/icons_bash.sh
+
+# Plugins
+# zsh_add_plugin "zdharma/fast-syntax-highlighting"
+zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
+zsh_add_plugin "romkatv/powerlevel10k"
+zsh_add_plugin "zsh-users/zsh-autosuggestions"
+
+# FZF
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

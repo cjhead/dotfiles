@@ -1,0 +1,75 @@
+# vim: filetype=neomuttrc
+
+color attachment color14 default
+color bold brightcolor4 default
+color error color1 default
+color hdrdefault color3 default
+color indicator color0 color4
+color markers default default
+color message color3 default
+color prompt brightcolor10 default
+color normal default default
+color progress color0 brightcolor4
+color quoted color4 default
+color quoted1 color5 default
+color quoted2 color4 default
+color quoted3 color5 default
+color quoted4 color4 default
+color quoted5 color5 default
+color search default default
+color signature color3 default
+color status color4 default
+color tilde default default
+color tree color3 default
+color underline color4 default
+
+color sidebar_divider color4 default
+color sidebar_new brightcolor4 default
+color sidebar_unread brightcolor4 default
+
+color index_number color4 default
+color index_date color4 default
+
+color index_author  color6 default "~u" # Subscribed  mailing list
+color index_subject  color6 default "~u" # Subscribed  mailing list
+
+color index_flags  brightcolor14 default "~N" # New messages
+color index_author  brightcolor14 default "~N" # New messages
+color index_subject  brightcolor14 default "~N" # New messages
+
+color index_author  color14 default "~Q" # Messages which have been replied to
+color index_subject  color14 default "~Q" # Messages which have been replied to
+
+color index_author  color3 default "~T" # Tagged messages
+color index_subject  color3 default "~T" # Tagged messages
+
+color index_flags  brightcolor1 default "~D" # Deleted messages
+color index_author  color1 default "~D" # Deleted messages
+color index_subject  color1 default "~D" # Deleted messages
+
+color index_collapsed  color6 default #"~M" # Number of messages in collapsed thread
+color index_flags  brightcolor3 default "~g" # Cryptographically signed messages
+color index_flags  brightcolor5 default "~G" # Cryptographically encrypted messages
+color index_flags  brightcolor2 default "~V" # Cryptographically verified messages
+
+color header  color4 default "^(To:|From:)"
+color header  color14 default "^Subject:"
+color header  default default "^X-Spam-Status:"
+color header  default default "^Received:"
+
+color body  color10 default "[a-z]{3,256}://[-a-zA-Z0-9@:%._\\+~#=/?&,]+"
+color body  color10 default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+color body  color10 default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+color body  color10 default "[;:]-*[)>(<lt;|]"
+color body  color10 default "\\*[- A-Za-z]+\\*"
+
+color body  color5 default "^-.*PGP.*-*"
+color body  color10 default "^gpg: Good signature from"
+color body  color1 default "^gpg: Can't.*$"
+color body  color1 default "^gpg: WARNING:.*$"
+color body  color1 default "^gpg: BAD signature from"
+color body  color1 default "^gpg: Note: This key has expired!"
+color body  color1 default "^gpg: There is no indication that the signature belongs to the owner."
+color body  color1 default "^gpg: can't handle these multiple signatures"
+color body  color1 default "^gpg: signature verification suppressed"
+color body  color1 default "^gpg: invalid node with packet of type"
