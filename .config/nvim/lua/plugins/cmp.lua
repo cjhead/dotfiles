@@ -8,9 +8,9 @@ local has_words_before = function ()
 end
 
 cmp.setup({
-  --[[ experimental = {
-    ghost_text = true
-  }, ]]
+  -- experimental = {
+  --   ghost_text = true
+  -- },
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body)
@@ -18,7 +18,9 @@ cmp.setup({
   },
 
   formatting = {
-    format = lspkind.cmp_format({with_text = true, menu = ({
+    format = lspkind.cmp_format({
+      mode = "symbol_text",
+      menu = ({
         buffer = "[Buffer]",
         path = "[Path]",
         nvim_lsp = "[LSP]",
@@ -26,24 +28,26 @@ cmp.setup({
         tags = "[Tags]",
         luasnip = "[LuaSnip]",
         neorg = "[Neorg]",
-        nvim_lua = "[Lua]",
+        nvim_lua = "[Nvim Lua]",
         latex_symbols = "[Latex]",
         spell = "[Spell]",
-      })}),
+      })
+    }),
   },
 
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'path' },
+    { name = 'nvim_lsp_signature_help' },
     { name = 'nvim_lua' },
     { name = 'treesitter' },
     { name = 'luasnip' },
+    { name = 'buffer' },
+    { name = 'path' },
     { name = 'tags' },
     { name = 'neorg' },
   },
 
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -72,19 +76,25 @@ cmp.setup({
         fallback()
       end
     end, { 'i', 's' }),
-  }
+  })
 })
 
 cmp.setup.cmdline('/', {
-  sources = {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp_document_symbol' }
+  }, {
     { name = 'buffer' }
-  }
+  })
 })
 
 cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
     { name = 'cmdline' }
+  }, {
+    { name = 'nvim_lua' }
   })
 })

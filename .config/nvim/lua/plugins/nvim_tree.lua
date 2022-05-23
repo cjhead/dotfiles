@@ -1,28 +1,48 @@
 vim.cmd([[
   let g:nvim_tree_highlight_opened_files = 2
-  let g:nvim_tree_indent_markers = 1
   let g:nvim_tree_git_hl = 1
 ]])
 
-
 require'nvim-tree'.setup {
-  auto_close = true,
+  auto_reload_on_write = true,
   hijack_cursor = true,
-  update_cwd = true,
-  update_to_buf_dir = {
-    enable = true,
-  },
+  hijack_unnamed_buffer_when_opening = false,
+  ignore_buffer_on_setup = false,
+  open_on_setup = false,
+  open_on_setup_file = false,
+  open_on_tab = false,
+  sort_by = "name",
+  update_cwd = false,
   update_focused_file = {
     enable = true,
     update_cwd = true,
   },
   diagnostics = {
     enable = true,
+    show_on_dirs = true,
+  },
+  renderer = {
+    indent_markers = {
+      enable = true,
+      icons = {
+        corner = "└ ",
+        edge = "│ ",
+        none = "  ",
+      },
+    },
+  },
+  hijack_directories = {
+    enable = true,
+    auto_open = true,
+  },
+  git = {
+    enable = true,
+    ignore = false,
   },
   view = {
     width = 25,
     side = 'left',
     hide_root_folder = false,
-    auto_resize = true
+    preserve_window_proportions = true
   }
 }

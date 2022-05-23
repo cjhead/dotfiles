@@ -27,6 +27,7 @@ return require('packer').startup({function(use)
     'nvim-telescope/telescope.nvim',
     requires = {
       {'nvim-lua/plenary.nvim'},
+      {'nvim-telescope/telescope-github.nvim'},
     },
     config = [[require('plugins.telescope')]],
   }
@@ -47,6 +48,7 @@ return require('packer').startup({function(use)
   }
 
   use { 'onsails/lspkind-nvim' }
+  use 'ray-x/lsp_signature.nvim'
 
   -------------------------------------------------------------------
   -- Icons
@@ -66,7 +68,6 @@ return require('packer').startup({function(use)
   -------------------------------------------------------------------
   use {
       'nvim-treesitter/nvim-treesitter',
-      commit = '668de0951a36ef17016074f1120b6aacbe6c4515',
       config = [[require('plugins.treesitter')]],
       run = ':TSUpdate',
   }
@@ -86,6 +87,8 @@ return require('packer').startup({function(use)
       { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-nvim-lsp-signature-help', after = 'nvim-cmp' },
+      { 'hrsh7th/cmp-nvim-lsp-document-symbol', after = 'nvim-cmp' },
       { 'f3fora/cmp-spell', after = 'nvim-cmp' },
       { 'ray-x/cmp-treesitter', after = 'nvim-cmp' },
       { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
@@ -97,11 +100,19 @@ return require('packer').startup({function(use)
   }
 
   -------------------------------------------------------------------
+  -- UI
+  -------------------------------------------------------------------
+  use 'stevearc/dressing.nvim'
+
+  -------------------------------------------------------------------
   -- Status line
   -------------------------------------------------------------------
   use {'nvim-lualine/lualine.nvim',
     -- after = 'nord.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    requires = {
+      { 'kyazdani42/nvim-web-devicons', opt = true },
+      { 'arkav/lualine-lsp-progress' }
+    },
     config = [[require('plugins.lualine')]],
   }
 
@@ -147,6 +158,13 @@ return require('packer').startup({function(use)
   use 'ellisonleao/glow.nvim'
 
   -------------------------------------------------------------------
+  -- Symbols Outline
+  -------------------------------------------------------------------
+  use { 'simrat39/symbols-outline.nvim',
+    config = [[require('plugins.symbols_outline')]],
+  }
+
+  -------------------------------------------------------------------
   -- Note taking
   -------------------------------------------------------------------
   use { 'nvim-neorg/neorg',
@@ -158,6 +176,14 @@ return require('packer').startup({function(use)
     },
     config = [[require('plugins.neorg')]],
   }
+
+  -------------------------------------------------------------------
+  -- Urlview
+  -------------------------------------------------------------------
+  use { 'axieax/urlview.nvim',
+    config = [[require('plugins.urlview')]],
+  }
+
   -------------------------------------------------------------------
   -- Indent-blankline
   -------------------------------------------------------------------
@@ -169,6 +195,11 @@ return require('packer').startup({function(use)
   -- Vimwiki
   -------------------------------------------------------------------
   use 'vimwiki/vimwiki'
+
+  -------------------------------------------------------------------
+  -- Notifications
+  -------------------------------------------------------------------
+  use 'rcarriga/nvim-notify'
 
   -------------------------------------------------------------------
   -- Colorscheme nord

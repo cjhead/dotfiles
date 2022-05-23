@@ -13,3 +13,9 @@ require('telescope').setup {
 
 -- fzf-native
 require('telescope').load_extension('fzf')
+
+-- Github
+require('telescope').load_extension('gh')
+
+-- Nvim-Notify
+require('telescope').load_extension('notify')

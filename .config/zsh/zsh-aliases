@@ -6,7 +6,8 @@ alias ip="ip -color=auto"
 alias vim="nvim"
 alias cat='bat'
 alias ncdu="ncdu --color dark"
-alias crypto="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets -V"
+alias btcgains="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets -V"
+alias btc="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets:crypto"
 
 # Dotfiles
 alias dots="/usr/bin/git --git-dir=$HOME/repos/dotfiles/ --work-tree=$HOME"

@@ -1,53 +1,77 @@
-vim.opt.backspace = {'indent', 'eol', 'start'}
-vim.opt.history = 50
-vim.opt.ruler = true
-vim.opt.showcmd = true
-vim.opt.incsearch = true
-vim.opt.expandtab = true
-vim.opt.smartcase = true
-vim.opt.ignorecase = true
--- vim.opt.hlsearch = false
-vim.opt.sidescroll = 10
-vim.opt.scrolloff = 20
-vim.opt.mouse = 'a'
-vim.opt.clipboard = 'unnamedplus'
-vim.opt.splitright = true
-vim.opt.completeopt = {'menu', 'menuone', 'noselect', 'noinsert'}
-vim.opt.termguicolors = true
-vim.opt.filetype = 'on'
-vim.opt.hidden = true
-vim.opt.cmdheight = 2
-vim.opt.autoindent = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.smartindent = true
-vim.opt.syntax = 'on'
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.wrap = false
+local opt = vim.opt
 
--- require('onenord').setup()
+opt.backspace = {'indent', 'eol', 'start'}
+opt.history = 50
+opt.ruler = true
+opt.showcmd = true
+opt.incsearch = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.sidescroll = 10
+opt.scrolloff = 20
+opt.mouse = 'a'
+opt.clipboard = 'unnamedplus'
+opt.splitright = true
+opt.completeopt = {'menu', 'menuone', 'noselect', 'noinsert'}
+opt.termguicolors = true
+opt.filetype = 'on'
+opt.hidden = true
+opt.cmdheight = 1
+opt.laststatus=3
+
+opt.smartindent = true
+opt.autoindent = true
+opt.cindent = true
+
+opt.wrap = true
+opt.breakindent = true
+opt.showbreak = string.rep(" ", 3)
+opt.linebreak = true
+
+opt.tabstop = 4
+opt.shiftwidth = 4
+opt.softtabstop = 4
+opt.expandtab = true
+
+opt.syntax = 'on'
+opt.number = true
+opt.relativenumber = true
+
+-- Set default notifications to nvim-notify
+vim.notify = require("notify")
+
+-- Wildmenu transparency
+-- opt.pumblend = 15
+
 -- Run xrdb when saving .Xresources
-vim.cmd([[
-autocmd BufWritePost .Xresources !xrdb %
-]])
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = ".Xresources",
+  command = "!xrdb %",
+})
 
 -- Ledger
 vim.cmd([[
-au BufNewFile,BufRead *.ldg,*.ledger set filetype=ledger
 let g:ledger_align_at = 45
 let g:ledger_default_commodity = '$'
-au BufWritePre *.ledger LedgerAlignBuffer
 ]])
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+  pattern = {"*.ldg, *.ledger"},
+  command = "set filetype=ledger"
+})
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.ledger",
+  command = "LedgerAlignBuffer"
+})
 
 -- Sync plugins on save
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost pluginList.lua source <afile> | PackerSync
-  augroup end
-]])
+vim.api.nvim_create_augroup("packer_user_config", {clear = true})
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = "packer_user_config",
+  pattern = "pluginList.lua",
+  callback = function()
+    vim.cmd "source <afile> | PackerSync"
+  end,
+})
 
 -- Vimwiki
 vim.cmd([[
@@ -68,24 +92,37 @@ let g:vimwiki_auto_header = 1
 ]])
 
 -- Remove trailing whitespace and newlines on save
-vim.cmd([[
-au BufWritePre * %s/\s\+$//e
-au BufWritePre * %s/\n\+\%$//e
-]])
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+    vim.cmd([[
+    %s/\s\+$//e
+    %s/\n\+\%$//e
+    ]])
+  end,
+})
 
 -- Pick up where you left off in a file
-vim.cmd([[
-au BufReadPost *
-  \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |   exe "normal! g`\""
-  \ | endif
-]])
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    vim.cmd([[
+    if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+    \ |   exe "normal! g`\""
+    \ | endif
+    ]])
+  end,
+})
 
 -- Highlight search while searching then turn off
-vim.cmd([[
-augroup vimrc-incsearch-highlight
-	autocmd!
-	autocmd CmdlineEnter /,\? :set hlsearch
-	autocmd CmdlineLeave /,\? :set nohlsearch
-augroup END
-]])
+vim.api.nvim_create_augroup("incsearch-hl", {clear = true})
+vim.api.nvim_create_autocmd("CmdlineEnter", {
+  pattern = "/,\\?",
+  group = "incsearch-hl",
+  command = ":set hlsearch"
+})
+vim.api.nvim_create_autocmd("CmdlineLeave", {
+  pattern = "/,\\?",
+  group = "incsearch-hl",
+  command = ":set nohlsearch"
+})

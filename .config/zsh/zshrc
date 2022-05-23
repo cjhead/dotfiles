@@ -4,11 +4,14 @@
 setopt interactive_comments
 setopt extendedglob
 setopt nomatch
-setopt MENU_COMPLETE
+setopt menu_complete
+setopt autocd
+setopt cdable_vars
+setopt cd_silent
+setopt pushd_silent
+unsetopt beep
 stty stop undef # Disable ctrl-s to freeze terminal
 zle_highlight=('paste:none') # no highlighted paste
-setopt autocd
-unsetopt beep
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -38,6 +41,11 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
 
+# Named directories
+proj=~/.scripts/projects/
+config=~/.config/
+
+
 # Basic auto/tab complete:
 fpath+=~/.config/zsh/completion
 zmodload zsh/complist
@@ -50,7 +58,6 @@ zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-dirs-first true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-# source "$ZDOTDIR/zsh-completions"
 
 # Modules
 zmodload -F zsh/stat b:zstat

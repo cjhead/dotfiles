@@ -13,11 +13,16 @@ export LYNX_CFG_PATH="$XDG_CONFIG_HOME/lynx"
 export LYNX_CFG="$LYNX_CFG_PATH/lynx.cfg"
 export WWW_HOME="https://archlinux.org/"
 
+# Export theme here for gtk4
+export GTK_THEME=Nordic
+
 if [ -n "$DISPLAY" ]; then
     export BROWSER=brave
 else
     export BROWSER=lynx
 fi
+
+export SSLKEYLOGFILE=~/.ssl-key.log
 
 # LS Colors
 # Found with dircolors command on the Nord Xresources port

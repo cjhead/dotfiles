@@ -1,17 +1,50 @@
-
 -- Configure lsp
 local nvim_lsp = require 'lspconfig'
 
--- Show diagnostic source
---[[ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-  virtual_text = {
-    source = "always",  -- Or "if_many"
-  }
-}) ]]
 
--- Show diagnostic window on cursor hover
--- vim.o.updatetime = 250
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})]]
+-- Utility functions shared between progress reports for LSP and DAP
+local client_notifs = {}
+
+local function get_notif_data(client_id, token)
+ if not client_notifs[client_id] then
+   client_notifs[client_id] = {}
+ end
+
+ if not client_notifs[client_id][token] then
+   client_notifs[client_id][token] = {}
+ end
+
+ return client_notifs[client_id][token]
+end
+
+local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
+
+local function update_spinner(client_id, token)
+ local notif_data = get_notif_data(client_id, token)
+
+ if notif_data.spinner then
+   local new_spinner = (notif_data.spinner + 1) % #spinner_frames
+   notif_data.spinner = new_spinner
+
+   notif_data.notification = vim.notify(nil, nil, {
+     hide_from_history = true,
+     icon = spinner_frames[new_spinner],
+     replace = notif_data.notification,
+   })
+
+   vim.defer_fn(function()
+     update_spinner(client_id, token)
+   end, 100)
+ end
+end
+
+local function format_title(title, client_name)
+ return client_name .. (#title > 0 and ": " .. title or "")
+end
+
+local function format_message(message, percentage)
+ return (percentage and percentage .. "%\t" or "") .. (message or "")
+end
 
 
 -- Peek Definition
@@ -27,9 +60,8 @@ function PeekDefinition()
   return vim.lsp.buf_request(0, 'textDocument/definition', params, preview_location_callback)
 end
 
--- vim.cmd [[autocmd ColorScheme * highlight NormalFloat guibg=#1f2335]]
--- vim.cmd [[autocmd ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 
+-- Define border around diagnostic window
 local border = {
       {"┌", "FloatBorder"},
       {"─", "FloatBorder"},
@@ -41,6 +73,7 @@ local border = {
       {"│", "FloatBorder"},
 }
 
+
 -- To override borders globally
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
@@ -49,31 +82,92 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
   return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+local opts = { silent=true }
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
-  local opts = { noremap=true, silent=true }
+-- LSP integration
+-- Make sure to also have the snippet with the common helper functions in your config!
+  vim.lsp.handlers["$/progress"] = function(_, result, ctx)
+   local client_id = ctx.client_id
 
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  -- buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<cmd>lua PeekDefinition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+   local val = result.value
+
+   if not val.kind then
+     return
+   end
+
+   local notif_data = get_notif_data(client_id, result.token)
+
+   if val.kind == "begin" then
+     local message = format_message(val.message, val.percentage)
+
+     notif_data.notification = vim.notify(message, "info", {
+       title = format_title(val.title, vim.lsp.get_client_by_id(client_id).name),
+       icon = spinner_frames[1],
+       timeout = false,
+       hide_from_history = false,
+     })
+
+     notif_data.spinner = 1
+     update_spinner(client_id, result.token)
+   elseif val.kind == "report" and notif_data then
+     notif_data.notification = vim.notify(format_message(val.message, val.percentage), "info", {
+       replace = notif_data.notification,
+       hide_from_history = false,
+     })
+   elseif val.kind == "end" and notif_data then
+     notif_data.notification =
+       vim.notify(val.message and format_message(val.message) or "Complete", "info", {
+         icon = "",
+         replace = notif_data.notification,
+         timeout = 3000,
+       })
+
+     notif_data.spinner = nil
+   end
+  end
+
+
+  opts["buffer"] = bufnr
+
+  -- require 'lsp_signature'.on_attach({
+  --   bind = true,
+  --   hint_prefix = "Sig Help ",
+  -- }, bufnr)
+
+  vim.keymap.set('n', 'gd', PeekDefinition, opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+  -- vim.keymap.set('n', '<space>wl', print(vim.inspect(vim.lsp.buf.list_workspace_folders())), opts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, opts)
+
+  vim.api.nvim_create_autocmd("CursorHold", {
+    buffer = bufnr,
+    callback = function()
+      local diag_opts = {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = border,
+        source = 'always',
+        prefix = ' ',
+        scope = 'cursor',
+      }
+      vim.diagnostic.open_float(nil, diag_opts)
+    end
+  })
 
 end
 
@@ -81,8 +175,9 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
+
 -- Enable the following language servers
-local servers = { 'clangd', 'pylsp', 'bashls', 'html', 'cssls' }
+local servers = { 'clangd', 'pylsp', 'bashls', 'html', 'cssls', 'yamlls' }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -93,6 +188,8 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+
+-- Grammar guard setup
 require'lspconfig'.ltex.setup{
   cmd = { "/home/carl/.local/share/nvim/grammar-guard/ltex/bin/ltex-ls" };
   on_attach = on_attach,
@@ -116,6 +213,7 @@ require'lspconfig'.ltex.setup{
     }
   }
 }
+
 
 -- set the path to the sumneko installation
 local sumneko_root_path = "/usr/share/lua-language-server"
@@ -154,48 +252,3 @@ require'lspconfig'.sumneko_lua.setup {
     },
   },
 }
-
-require('lspkind').init({
-    -- enables text annotations
-    --
-    -- default: true
-    -- with_text = true,
-    mode = 'symbol_text',
-    -- default symbol map
-    -- can be either 'default' (requires nerd-fonts font) or
-    -- 'codicons' for codicon preset (requires vscode-codicons font)
-    --
-    -- default: 'default'
-    preset = 'codicons',
-
-    -- override preset symbols
-    --
-    -- default: {}
-    symbol_map = {
-      Text = "",
-      Method = "",
-      Function = "",
-      Constructor = "",
-      Field = "ﰠ",
-      Variable = "",
-      Class = "ﴯ",
-      Interface = "",
-      Module = "",
-      Property = "ﰠ",
-      Unit = "塞",
-      Value = "",
-      Enum = "",
-      Keyword = "",
-      Snippet = "",
-      Color = "",
-      File = "",
-      Reference = "",
-      Folder = "",
-      EnumMember = "",
-      Constant = "",
-      Struct = "פּ",
-      Event = "",
-      Operator = "",
-      TypeParameter = ""
-    },
-})

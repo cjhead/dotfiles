@@ -69,4 +69,5 @@ unset confirmappend
 # extension. If a mime type can't be found, add it to /etc/mime.types.
 mime_lookup application/octet-stream
 
+# alternative_order text/plain text/enriched text/html
 alternative_order text/html text/enriched text/plain

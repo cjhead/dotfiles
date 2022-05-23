@@ -1,8 +1,13 @@
 require('lualine').setup {
-  --[[ options = {
-    theme = 'onenord',
-  }, ]]
+  options = {
+    -- theme = 'onenord',
+    globalstatus = true,
+  },
   sections = {
+    -- lualine_c = {
+    --   ...,
+    --   'lsp_progress'
+    -- },
     lualine_x = {
       'encoding',
       {
@@ -17,6 +22,8 @@ require('lualine').setup {
   extensions = {
     'nvim-tree',
     'fzf',
-    'quickfix'
+    'quickfix',
+    'symbols-outline',
+    'toggleterm',
   },
 }

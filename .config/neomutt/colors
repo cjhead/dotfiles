@@ -30,22 +30,27 @@ color sidebar_unread brightcolor4 default
 color index_number color4 default
 color index_date color4 default
 
-color index_author  color6 default "~u" # Subscribed  mailing list
-color index_subject  color6 default "~u" # Subscribed  mailing list
+# New Messages
+color index_flags  brightcolor14 default "~N"
+color index_author  brightcolor14 default "~N"
+color index_subject  brightcolor14 default "~N"
 
-color index_flags  brightcolor14 default "~N" # New messages
-color index_author  brightcolor14 default "~N" # New messages
-color index_subject  brightcolor14 default "~N" # New messages
+# Subscribed mailing list
+color index_author  color6 default "~u"
+color index_subject  color6 default "~u"
 
-color index_author  color14 default "~Q" # Messages which have been replied to
-color index_subject  color14 default "~Q" # Messages which have been replied to
+# Messages which have been replied to
+color index_author  color14 default "~Q"
+color index_subject  color14 default "~Q"
 
-color index_author  color3 default "~T" # Tagged messages
-color index_subject  color3 default "~T" # Tagged messages
+# Tagged messages
+color index_author  color3 default "~T"
+color index_subject  color3 default "~T"
 
-color index_flags  brightcolor1 default "~D" # Deleted messages
-color index_author  color1 default "~D" # Deleted messages
-color index_subject  color1 default "~D" # Deleted messages
+# Deleted messages
+color index_flags  brightcolor1 default "~D"
+color index_author  color1 default "~D"
+color index_subject  color1 default "~D"
 
 color index_collapsed  color6 default #"~M" # Number of messages in collapsed thread
 color index_flags  brightcolor3 default "~g" # Cryptographically signed messages
@@ -73,3 +78,29 @@ color body  color1 default "^gpg: There is no indication that the signature belo
 color body  color1 default "^gpg: can't handle these multiple signatures"
 color body  color1 default "^gpg: signature verification suppressed"
 color body  color1 default "^gpg: invalid node with packet of type"
+
+# Statusbar Colors   ----------------------------------------------------------------
+# set index_format="%4C %zs %zc %2M %{%b %d} %-15.15L %s"
+# set status_format = " %D %?u? %u ?%?R? %R ?%?d? %d ?%?t? %t ?%?F? %F ?%?p? %p? \n  \n"
+# Default:  “ -%r-NeoMutt: %D [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]---(%s/%S)-%>-(%P)--- ”
+# set status_format = " %D %?u? %u? %?R? %R? "
+# color status color141 default
+
+# color status color7 color4 '\+([a-zA-Z0-9\.,]|\[|\])(\s)'  # bubble content 1
+# color status color7 color8 '\+[a-zA-Z0-9]*'  # bubble content 1
+
+# color status color7 color8 '(\s)([a-zA-Z0-9\.,]|\[|\])'  # bubble content 2
+# color status color7 color8 '(\s)([0-9\.,]*|\[|\])'  # bubble content 2
+# color status color7 color8 '(\s)[0-9]*'  # bubble content 2
+
+# color status color7 color8 '(\% )'                       # % symbol
+# color status color7 color8 '(\S)'                        # empty spaces
+# color status color7 color8 '(\s)'                        # empty spaces
+
+# color status color8 default '(|)'                      # statusline "bubbles"
+# color status color69 black '(\` )'                      # bubble account variation
+# color status white color69 '([a-zA-Z0-9\.]+)( )'         # account text
+# color status green color8 ''                            # Unread messages count
+# color status blue color8 ''                             # Read messages count icon
+# color status yellow color8 ''                           # Flagged icon
+# color status red color8 ''                              # Pending delete icon
