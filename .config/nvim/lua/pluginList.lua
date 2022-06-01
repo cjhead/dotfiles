@@ -16,6 +16,11 @@ return require('packer').startup({function(use)
   use 'wbthomason/packer.nvim'
 
   -------------------------------------------------------------------
+  -- Impatient
+  -------------------------------------------------------------------
+  use 'lewis6991/impatient.nvim'
+
+  -------------------------------------------------------------------
   -- Plenary
   -------------------------------------------------------------------
   use 'nvim-lua/plenary.nvim'
@@ -26,10 +31,9 @@ return require('packer').startup({function(use)
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
-      {'nvim-lua/plenary.nvim'},
-      {'nvim-telescope/telescope-github.nvim'},
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope-github.nvim',
     },
-    config = [[require('plugins.telescope')]],
   }
 
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
@@ -38,17 +42,14 @@ return require('packer').startup({function(use)
   -- Lsp
   -------------------------------------------------------------------
   use {
-    'neovim/nvim-lspconfig',
-    config = [[require('plugins.lsp')]],
+      'neovim/nvim-lspconfig',
+    {
+      "brymer-meneses/grammar-guard.nvim",
+      requires = "neovim/nvim-lspconfig",
+    },
+    'onsails/lspkind-nvim',
+    'ray-x/lsp_signature.nvim',
   }
-
-  use {
-    "brymer-meneses/grammar-guard.nvim",
-    requires = "neovim/nvim-lspconfig"
-  }
-
-  use { 'onsails/lspkind-nvim' }
-  use 'ray-x/lsp_signature.nvim'
 
   -------------------------------------------------------------------
   -- Icons
@@ -60,16 +61,14 @@ return require('packer').startup({function(use)
   -------------------------------------------------------------------
   use {
     'kyazdani42/nvim-tree.lua',
-    config = [[require('plugins.nvim_tree')]]
   }
 
   -------------------------------------------------------------------
   -- Treesitter
   -------------------------------------------------------------------
   use {
-      'nvim-treesitter/nvim-treesitter',
-      config = [[require('plugins.treesitter')]],
-      run = ':TSUpdate',
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
   }
 
   -------------------------------------------------------------------
@@ -80,9 +79,7 @@ return require('packer').startup({function(use)
     requires = {
       'hrsh7th/cmp-nvim-lsp',
       'rafamadriz/friendly-snippets',
-      { 'L3MON4D3/LuaSnip',
-        wants = 'friendly-snippets',
-        config = [[require('plugins.luasnip')]]},
+      { 'L3MON4D3/LuaSnip', wants = 'friendly-snippets'},
       { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-path', after = 'nvim-cmp' },
       { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' },
@@ -92,11 +89,8 @@ return require('packer').startup({function(use)
       { 'f3fora/cmp-spell', after = 'nvim-cmp' },
       { 'ray-x/cmp-treesitter', after = 'nvim-cmp' },
       { 'saadparwaiz1/cmp_luasnip', after = 'nvim-cmp' },
-      { 'windwp/nvim-autopairs',
-        after = 'nvim-cmp',
-        config = [[require('plugins.autopairs')]]},
+      { 'windwp/nvim-autopairs', after = 'nvim-cmp' },
     },
-    config = [[require('plugins.cmp')]],
   }
 
   -------------------------------------------------------------------
@@ -108,19 +102,20 @@ return require('packer').startup({function(use)
   -- Status line
   -------------------------------------------------------------------
   use {'nvim-lualine/lualine.nvim',
-    -- after = 'nord.nvim',
     requires = {
       { 'kyazdani42/nvim-web-devicons', opt = true },
-      { 'arkav/lualine-lsp-progress' }
+      'arkav/lualine-lsp-progress',
+      'rmehri01/onenord.nvim',
     },
-    config = [[require('plugins.lualine')]],
+    after = 'onenord.nvim',
   }
 
   -------------------------------------------------------------------
   -- Tabline
   -------------------------------------------------------------------
-  use {'romgrk/barbar.nvim',
-    config = [[require('plugins.barbar')]],
+  use {
+    'akinsho/bufferline.nvim',
+    after = 'onenord.nvim',
   }
 
   -------------------------------------------------------------------
@@ -128,7 +123,6 @@ return require('packer').startup({function(use)
   -------------------------------------------------------------------
   use {
     'numToStr/Comment.nvim',
-    config = [[require('plugins.comment')]],
   }
 
   -------------------------------------------------------------------
@@ -145,11 +139,8 @@ return require('packer').startup({function(use)
   -- Nvim start screen
   -------------------------------------------------------------------
   use {
-      'goolord/alpha-nvim',
-      requires = { 'kyazdani42/nvim-web-devicons' },
-      config = function ()
-          require'alpha'.setup(require'alpha.themes.dashboard'.opts)
-      end
+    'goolord/alpha-nvim',
+    requires = { 'kyazdani42/nvim-web-devicons' },
   }
 
   -------------------------------------------------------------------
@@ -161,7 +152,6 @@ return require('packer').startup({function(use)
   -- Symbols Outline
   -------------------------------------------------------------------
   use { 'simrat39/symbols-outline.nvim',
-    config = [[require('plugins.symbols_outline')]],
   }
 
   -------------------------------------------------------------------
@@ -174,21 +164,18 @@ return require('packer').startup({function(use)
       'nvim-lua/plenary.nvim',
       'nvim-neorg/neorg-telescope'
     },
-    config = [[require('plugins.neorg')]],
   }
 
   -------------------------------------------------------------------
   -- Urlview
   -------------------------------------------------------------------
   use { 'axieax/urlview.nvim',
-    config = [[require('plugins.urlview')]],
   }
 
   -------------------------------------------------------------------
   -- Indent-blankline
   -------------------------------------------------------------------
   -- use { 'lukas-reineke/indent-blankline.nvim',
-    -- config = [[require('plugins.blankline')]],
   -- }
 
   -------------------------------------------------------------------
@@ -221,15 +208,17 @@ return require('packer').startup({function(use)
   use {
     'rmehri01/onenord.nvim',
     after = 'nvim-treesitter',
-    config = [[require('plugins.one_nord')]],
   }
+
+  use {'/home/carl/stackmap.nvim',
+    disable = true,}
 
 end,
 config = {
-  --[[ profile = {
+  profile = {
     enable = true,
     threshold = 1
-  }, ]]
+  },
   display = {
     open_fn = require('packer.util').float,
   }
