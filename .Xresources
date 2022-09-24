@@ -1,6 +1,10 @@
 ! Colorscheme
 #include "/home/carl/.Xresources.d/themes/nord"
+! #include "/home/carl/.Xresources.d/themes/onenord"
 
 ! Transparency (0-1)
 st.alpha: 0.95
 st.alphaUnfocused: 0.8
+
+dwm.showbar: 1
+dwm.topbar: 1
