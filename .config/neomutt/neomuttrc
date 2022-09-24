@@ -1,5 +1,5 @@
 # Email Account Setup ---------------------------------------------------------
-set realname="Carl"
+set real_name="Carl"
 set from="chead@linuxmail.org"
 
 set imap_user="chead@linuxmail.org"
@@ -42,7 +42,7 @@ set timeout=15
 set reverse_alias
 
 # Index Options ---------------------------------------------------------------
-set index_format="%4C %zs %zc %2M %{%b %d} %-15.15L %s"
+# set index_format="%4C %zs %zc %2M %{%b %d} %-15.15L %s"
 set use_threads=threads
 set sort=reverse-last-date
 set sort_aux=reverse-last-date
@@ -52,8 +52,17 @@ set forward_format = "Fwd: %s"
 set forward_quote
 set include
 set delete=yes
-set display_filter = "tac | sed '/\\\[-- Autoview/,+1d' | tac"
+set display_filter="tac | sed '/\\\[-- Autoview/,+1d' | tac"
 set pager_stop
+set pager_index_lines=10
+set pager_context=5
+set pager_read_delay=10
+# set allow_ansi
+# set header_color_partial
+
+set send_charset="utf-8"
+set assumed_charset="cp1252"
+charset-hook ^iso-8859-1$ cp1252
 
 # Collapses threads unless it contains a new message
 set collapse_all
@@ -63,7 +72,7 @@ set auto_tag
 unset mark_old
 unset markers
 
-unset confirmappend
+unset confirm_append
 
 # Determines mime type of octet-stream attachments by checking its filetype
 # extension. If a mime type can't be found, add it to /etc/mime.types.
