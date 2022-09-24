@@ -1,7 +1,6 @@
 -- Configure lsp
 local nvim_lsp = require 'lspconfig'
 
-
 -- Utility functions shared between progress reports for LSP and DAP
 local client_notifs = {}
 
@@ -132,13 +131,7 @@ local on_attach = function(client, bufnr)
    end
   end
 
-
   opts["buffer"] = bufnr
-
-  -- require 'lsp_signature'.on_attach({
-  --   bind = true,
-  --   hint_prefix = "Sig Help ",
-  -- }, bufnr)
 
   vim.keymap.set('n', 'gd', PeekDefinition, opts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
@@ -177,7 +170,18 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 
 -- Enable the following language servers
-local servers = { 'clangd', 'pylsp', 'bashls', 'html', 'cssls', 'yamlls' }
+local servers = { 'clangd',
+                  'pylsp',
+                  'bashls',
+                  'html',
+                  'cssls',
+                  'cssmodules_ls',
+                  'intelephense',
+                  'yamlls',
+                  'jsonls',
+                  'sqlls',
+                  'awk_ls',
+                  'cmake'}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

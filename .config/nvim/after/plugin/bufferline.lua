@@ -1,8 +1,14 @@
-require("bufferline").setup{
+local status_ok, bufferline = pcall(require, "bufferline")
+if not status_ok then
+  return
+end
+
+bufferline.setup{
   options = {
     mode = "buffers",
     always_show_bufferline = true,
-    separator_style = "thick",
+    -- separator_style = "thick",
+    separator_style = "padded_slant",
     diagnostics = "nvim_lsp",
     diagnostics_update_in_insert = false,
     -- diagnostics_indicator = function(count, level, diagnostics_dict, context)

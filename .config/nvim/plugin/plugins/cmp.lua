@@ -28,6 +28,7 @@ cmp.setup({
         buffer = "[Buffer]",
         path = "[Path]",
         nvim_lsp = "[LSP]",
+        nvim_lsp_signature_help = "[LSP Sig]",
         treesitter = "[Tree]",
         tags = "[Tags]",
         luasnip = "[LuaSnip]",

@@ -26,6 +26,7 @@ configs.setup {
   },
 
   indent = {
-    enable = true
+    -- disable due to python indentation
+    enable = false
   },
 }
