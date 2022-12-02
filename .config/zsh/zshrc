@@ -5,6 +5,8 @@ setopt interactive_comments
 setopt extendedglob
 setopt nomatch
 setopt menu_complete
+setopt auto_list
+setopt complete_in_word
 setopt autocd
 setopt cdable_vars
 setopt cd_silent
@@ -24,8 +26,8 @@ fi
 setopt NO_HUP # Allow background jobs to continue after exiting shell
 
 # Improve history recording
-HISTFILE=~/.cache/zsh/history
-HISTSIZE=100000
+HISTFILE=$XDG_CACHE_HOME/zsh/history
+HISTSIZE=105000
 SAVEHIST=100000
 
 setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
@@ -41,48 +43,52 @@ setopt HIST_VERIFY               # Do not execute immediately upon history expan
 setopt APPEND_HISTORY            # append to history file
 setopt HIST_NO_STORE             # Don't store history commands
 
-# Named directories
-proj=~/.scripts/projects/
-config=~/.config/
-
-
 # Basic auto/tab complete:
-fpath+=~/.config/zsh/completion
+fpath=($ZDOTDIR/zsh_functions $ZDOTDIR/completion $fpath)
+
+# Autoload all functions in zsh_functions
+autoload -U ${(M)fpath:#*zsh_functions}/*(.:t)
+
+# Autoload all functions. If fpath changes, then change this respectively
+# autoload -U $fpath[1]/*(.:t)
+
 zmodload zsh/complist
-autoload -U compinit; compinit
+autoload -U compinit && compinit
 _comp_options+=(globdots) # Include hidden files
+
+# zstyle pattern
+# :completion:function:completer:command:argument:tag
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.cache/zsh/cache
+zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/cache
 zstyle ':completion:*' menu select
 zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-dirs-first true
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
-# Modules
-zmodload -F zsh/stat b:zstat
-
-# Colors
-autoload -Uz colors && colors
-
-# Useful Functions
-source "$ZDOTDIR/zsh-functions"
-
 # Normal files to source
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
-source '/home/carl/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme'
-source ~/.local/share/icons-in-terminal/icons_bash.sh
+source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
 
 # Plugins
 # zsh_add_plugin "zdharma/fast-syntax-highlighting"
+zsh_add_plugin "Aloxaf/fzf-tab"
 zsh_add_plugin "zdharma-continuum/fast-syntax-highlighting"
 zsh_add_plugin "romkatv/powerlevel10k"
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
 
+# Binds alt+? to the run-help command for word near cursor
+unalias run-help
+autoload -Uz run-help
+# bindkey '\e?' run-help
+
 # FZF
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+
+# FZF-tab
+# [[ -f $ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh ]] && source $ZDOTDIR/plugins/fzf-tab/fzf-tab.plugin.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh

@@ -2,9 +2,35 @@
 #include "/home/carl/.Xresources.d/themes/nord"
 ! #include "/home/carl/.Xresources.d/themes/onenord"
 
-! Transparency (0-1)
+st.font: Hack Nerd Font:size=12:antialias=true:autohint=true
+st.fontalt0: JoyPixels:pixelsize=10:antialias=true:autohint=true
+st.termname: st-256color
+st.shell: /bin/sh
+st.minlatency: 8
+st.maxlatency: 33
+st.blinktimeout: 800
+st.bellvolume: 0
+st.tabspaces: 8
+st.borderpx: 2
+st.cwscale: 1.0
+st.chscale: 1.0
 st.alpha: 0.95
 st.alphaUnfocused: 0.8
 
 dwm.showbar: 1
 dwm.topbar: 1
+dwm.font: Hack Nerd Font:size=10:antialias=true:autohint=true
+dwm.borderpx: 1
+dwm.snap: 32
+dwm.nmaster: 1
+dwm.resizehints: 0
+dwm.decorhints: 1
+dwm.lockfullscreen: 1
+dwm.attachdirection: 2
+dwm.mfact: 0.55
+dwm.swallowfloating: 0
+dwm.gappih: 0
+dwm.gappiv: 0
+dwm.gappoh: 0
+dwm.gappov: 0
+dwm.smartgaps: 1

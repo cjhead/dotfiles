@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 alias ls='exa --group-directories-first'
+alias tree='exa -T --group-directories-first --git-ignore'
 alias grep="rg"
 alias ip="ip -color=auto"
 alias vim="nvim"
@@ -11,6 +12,7 @@ alias btc="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets:crypto
 
 # Dotfiles
 alias dots="/usr/bin/git --git-dir=$HOME/repos/dotfiles/ --work-tree=$HOME"
+alias dots_stage_all='dots add -u'
 
 # Git
 alias glog='git log --oneline --decorate --graph'

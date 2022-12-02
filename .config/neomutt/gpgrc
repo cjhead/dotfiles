@@ -3,7 +3,7 @@
 set autocrypt_dir="~/.config/neomutt/autocrypt"
 set autocrypt
 
-set crypt_autosign
+# set crypt_autosign
 set crypt_protected_headers_write
 
 set pgp_retainable_sigs

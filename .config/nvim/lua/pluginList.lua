@@ -68,6 +68,15 @@ return require('packer').startup({function(use)
     'kyazdani42/nvim-tree.lua',
   }
 
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    }
+  }
+
   -------------------------------------------------------------------
   -- Treesitter
   -------------------------------------------------------------------
@@ -164,7 +173,6 @@ return require('packer').startup({function(use)
   -------------------------------------------------------------------
   use { 'nvim-neorg/neorg',
     after = 'nvim-treesitter',
-    -- branch = 'unstable',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-neorg/neorg-telescope'
@@ -219,6 +227,11 @@ return require('packer').startup({function(use)
     'rmehri01/onenord.nvim',
     after = 'nvim-treesitter',
   }
+
+  -------------------------------------------------------------------
+  -- Colorizer
+  -------------------------------------------------------------------
+  use 'NvChad/nvim-colorizer.lua'
 
   use {'/home/carl/stackmap.nvim',
     disable = true,}

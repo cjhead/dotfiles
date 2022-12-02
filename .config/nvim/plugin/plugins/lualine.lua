@@ -1,13 +1,17 @@
-require('lualine').setup {
+local status_ok, lualine = pcall(require, "lualine")
+if not status_ok then
+  return
+end
+
+lualine.setup {
   options = {
     theme = 'onenord',
     globalstatus = true,
   },
   sections = {
-    -- lualine_c = {
-    --   ...,
-    --   'lsp_progress'
-    -- },
+    lualine_c = {
+      'lsp_progress'
+    },
     lualine_x = {
       'encoding',
       {
@@ -17,13 +21,15 @@ require('lualine').setup {
         },
       },
       'filetype'
-    }
+    },
   },
   extensions = {
     'nvim-tree',
+    'neo-tree',
     'fzf',
     'quickfix',
     'symbols-outline',
     'toggleterm',
+    'man',
   },
 }

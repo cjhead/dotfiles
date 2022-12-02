@@ -56,7 +56,7 @@ set display_filter="tac | sed '/\\\[-- Autoview/,+1d' | tac"
 set pager_stop
 set pager_index_lines=10
 set pager_context=5
-set pager_read_delay=10
+set pager_read_delay=5
 # set allow_ansi
 # set header_color_partial
 
@@ -73,6 +73,9 @@ unset mark_old
 unset markers
 
 unset confirm_append
+
+# Testing this
+set text_flowed
 
 # Determines mime type of octet-stream attachments by checking its filetype
 # extension. If a mime type can't be found, add it to /etc/mime.types.

@@ -36,7 +36,7 @@ nvim_tree.setup {
   },
   git = {
     enable = true,
-    ignore = false,
+    ignore = true,
   },
   view = {
     adaptive_size = true,

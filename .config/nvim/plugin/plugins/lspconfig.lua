@@ -89,63 +89,33 @@ vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
 local on_attach = function(client, bufnr)
 
--- LSP integration
--- Make sure to also have the snippet with the common helper functions in your config!
-  vim.lsp.handlers["$/progress"] = function(_, result, ctx)
-   local client_id = ctx.client_id
-
-   local val = result.value
-
-   if not val.kind then
-     return
-   end
-
-   local notif_data = get_notif_data(client_id, result.token)
-
-   if val.kind == "begin" then
-     local message = format_message(val.message, val.percentage)
-
-     notif_data.notification = vim.notify(message, "info", {
-       title = format_title(val.title, vim.lsp.get_client_by_id(client_id).name),
-       icon = spinner_frames[1],
-       timeout = false,
-       hide_from_history = false,
-     })
-
-     notif_data.spinner = 1
-     update_spinner(client_id, result.token)
-   elseif val.kind == "report" and notif_data then
-     notif_data.notification = vim.notify(format_message(val.message, val.percentage), "info", {
-       replace = notif_data.notification,
-       hide_from_history = false,
-     })
-   elseif val.kind == "end" and notif_data then
-     notif_data.notification =
-       vim.notify(val.message and format_message(val.message) or "Complete", "info", {
-         icon = "",
-         replace = notif_data.notification,
-         timeout = 3000,
-       })
-
-     notif_data.spinner = nil
-   end
-  end
-
   opts["buffer"] = bufnr
 
-  vim.keymap.set('n', 'gd', PeekDefinition, opts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+  -- vim.keymap.set('n', 'gd', PeekDefinition, opts)
+  vim.keymap.set('n', 'gd', PeekDefinition, { desc="LSP: Peek Definition" })
+  -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc="LSP: Declaration"})
+  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc="LSP: Hover"})
+  -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+  -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc="LSP: Implementation"})
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { desc="LSP: Signature Help"})
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { desc="LSP: Add Workspace Folder"})
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { desc="LSP: Remove Workspace Folder"})
   -- vim.keymap.set('n', '<space>wl', print(vim.inspect(vim.lsp.buf.list_workspace_folders())), opts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, opts)
+  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+  -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+  -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+  -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+  -- vim.keymap.set('n', '<space>f', function () vim.lsp.buf.format { async = true } end, opts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { desc="LSP: Type Definition"})
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { desc="LSP: Rename"})
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { desc="LSP: Code Action"})
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc="LSP: References"})
+  vim.keymap.set('n', '<space>f', function () vim.lsp.buf.format { async = true } end, { desc="LSP: Format"})
 
   vim.api.nvim_create_autocmd("CursorHold", {
     buffer = bufnr,
@@ -166,7 +136,7 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 
 -- Enable the following language servers
