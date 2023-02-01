@@ -1,0 +1,5 @@
+-f bestvideo[height<=?1080][ext=mp4]+bestaudio[ext=m4a]/best
+--write-sub
+--embed-subs
+--restrict-filenames
+-o "%(title)s.%(ext)s"
