@@ -61,3 +61,6 @@ BLK="0B" CHR="0B" DIR="04" EXE="06" REG="00" HARDLINK="06" SYMLINK="06" MISSING=
 export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
 export NNN_FIFO=/tmp/nnn.fifo
 export NNN_PLUG="p:preview-tui;i:imgview"
+
+# NLTK Data
+export NLTK_DATA=~/.local/share/nltk_data

@@ -1,6 +1,11 @@
+local status_ok, onenord = pcall(require, "onenord")
+if not status_ok then
+  return
+end
+
 local colors = require('onenord.colors').load()
 
-require('onenord').setup({
+onenord.setup({
   theme = "dark",
   borders = true,
   face_nc = true,
@@ -16,6 +21,9 @@ require('onenord').setup({
     background = false,
     cursorline = false,
     eob_lines = true,
+  },
+  inverse = {
+    match_paren = false,
   },
   custom_highlights = {
 
@@ -41,9 +49,10 @@ require('onenord').setup({
     ["@keyword"] = { fg = colors.blue },
     ["@keyword.return"] = { fg = colors.blue },
     ["@keyword.function"] = { fg = colors.cyan },
+    ["@method.call"] = { fg = colors.cyan },
     ["@number"] = { fg = colors.purple },
     ["@operator"] = { fg = colors.blue },
-    ["@paramter"] = { fg = colors.fg },
+    ["@parameter"] = { fg = colors.fg },
     ["@punctuation.bracket"] = { fg = colors.cyan },
     ["@punctuation.delimiter"] = { fg = colors.cyan },
     ["@string.escape"] = { fg = colors.purple },

@@ -297,7 +297,7 @@ _G.packer_plugins = {
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
   ["onenord.nvim"] = {
-    after = { "lualine.nvim", "bufferline.nvim" },
+    after = { "bufferline.nvim", "lualine.nvim" },
     load_after = {},
     loaded = true,
     needs_bufread = false,
@@ -308,6 +308,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/carl/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
+  },
+  playground = {
+    loaded = true,
+    path = "/home/carl/.local/share/nvim/site/pack/packer/start/playground",
+    url = "https://github.com/nvim-treesitter/playground"
   },
   ["plenary.nvim"] = {
     loaded = true,
@@ -368,22 +373,22 @@ try_loadstring("\27LJ\2\n¿\1\0\0\2\0\a\0\0216\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\
 time([[Config for nord.nvim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
-vim.cmd [[ packadd nvim-cmp ]]
-vim.cmd [[ packadd cmp-nvim-lua ]]
-vim.cmd [[ packadd cmp-cmdline ]]
-vim.cmd [[ packadd cmp_luasnip ]]
-vim.cmd [[ packadd cmp-path ]]
-vim.cmd [[ packadd cmp-spell ]]
-vim.cmd [[ packadd nvim-autopairs ]]
-vim.cmd [[ packadd cmp-nvim-lsp-document-symbol ]]
-vim.cmd [[ packadd cmp-treesitter ]]
-vim.cmd [[ packadd cmp-nvim-lsp-signature-help ]]
-vim.cmd [[ packadd cmp-buffer ]]
 vim.cmd [[ packadd nvim-treesitter ]]
 vim.cmd [[ packadd onenord.nvim ]]
 vim.cmd [[ packadd bufferline.nvim ]]
 vim.cmd [[ packadd lualine.nvim ]]
 vim.cmd [[ packadd neorg ]]
+vim.cmd [[ packadd nvim-cmp ]]
+vim.cmd [[ packadd cmp_luasnip ]]
+vim.cmd [[ packadd cmp-path ]]
+vim.cmd [[ packadd nvim-autopairs ]]
+vim.cmd [[ packadd cmp-nvim-lsp-document-symbol ]]
+vim.cmd [[ packadd cmp-spell ]]
+vim.cmd [[ packadd cmp-nvim-lsp-signature-help ]]
+vim.cmd [[ packadd cmp-buffer ]]
+vim.cmd [[ packadd cmp-nvim-lua ]]
+vim.cmd [[ packadd cmp-cmdline ]]
+vim.cmd [[ packadd cmp-treesitter ]]
 time([[Sequenced loading]], false)
 
 _G._packer.inside_compile = false
