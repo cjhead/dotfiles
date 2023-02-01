@@ -85,6 +85,8 @@ return require('packer').startup({function(use)
     run = ':TSUpdate',
   }
 
+  use {'nvim-treesitter/playground'}
+
   -------------------------------------------------------------------
   -- Completion
   -------------------------------------------------------------------
