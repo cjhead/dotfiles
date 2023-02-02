@@ -26,6 +26,10 @@ map('n', '<leader>fz', ':Telescope spell_suggest<CR>', opts)
 -- Plenary
 map('n', '<leader>t', '<Plug>PlenaryTestFile', opts)
 
+-- Url View
+-- map('n', '<leader>uv', ':UrlView Packer<CR>', { desc="UrlView Packer"})
+map('n', '<leader>uv', '<Cmd>UrlView packer<CR>', { desc = "View plugin links" })
+
 -- Center results when searching
 map('n', 'n', 'nzz', opts)
 map('n', 'N', 'Nzz', opts)
