@@ -1,12 +1,13 @@
 #!/bin/zsh
 
-alias ls='exa --group-directories-first'
-alias tree='exa -T --group-directories-first --git-ignore'
+alias ls='eza --group-directories-first'
+alias tree='eza -T --group-directories-first --git-ignore'
 alias grep="rg"
 alias ip="ip -color=auto"
 alias vim="nvim"
 alias cat='bat'
 alias ncdu="ncdu --color dark"
+alias newsboat="newsboat -q"
 alias btcgains="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets -V"
 alias btc="ledger -f ~/documents/finances/ledger/crypto.ledger bal assets:crypto"
 

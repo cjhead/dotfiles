@@ -12,6 +12,7 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 
 export LESSOPEN="| LESSQUIET=1 lesspipe.sh %s"
 
+export MANROFFOPT='-c'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export EDITOR="nvim"
 export TERMINAL="st"
@@ -20,6 +21,14 @@ export TERMINAL="st"
 export LYNX_CFG_PATH="$XDG_CONFIG_HOME/lynx"
 export LYNX_CFG="$LYNX_CFG_PATH/lynx.cfg"
 export WWW_HOME="https://archlinux.org/"
+
+# mdp
+export MDP_LIST_OPEN1='    '
+export MDP_LIST_OPEN2='    '
+export MDP_LIST_OPEN3='    '
+export MDP_LIST_HEAD1='  - '
+export MDP_LIST_HEAD2='  - '
+export MDP_LIST_HEAD3='  - '
 
 # Export theme here for gtk4
 export GTK_THEME=Nordic
