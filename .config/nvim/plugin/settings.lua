@@ -1,13 +1,11 @@
 local opt = vim.opt
-local cmd = vim.cmd
 
 opt.termguicolors = true
-cmd('colorscheme onenord')
 
 opt.backspace = {'indent', 'eol', 'start'}
 opt.history = 50
 opt.ruler = true
-opt.showcmd = true
+-- opt.showcmd = true
 opt.incsearch = true
 opt.ignorecase = true
 opt.smartcase = true
@@ -17,8 +15,7 @@ opt.mouse = 'a'
 opt.clipboard = 'unnamedplus'
 opt.splitright = true
 opt.completeopt = {'menu', 'menuone', 'noselect', 'noinsert'}
-opt.termguicolors = true
-opt.filetype = 'on'
+-- opt.filetype = 'on'
 opt.hidden = true
 opt.cmdheight = 1
 opt.laststatus=3
@@ -31,14 +28,16 @@ opt.cindent = true
 opt.wrap = false
 opt.breakindent = true
 opt.showbreak = string.rep(" ", 3)
-opt.linebreak = true
+-- opt.linebreak = true
+
+opt.formatoptions = "tcqjro"
 
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 
-opt.syntax = 'on'
+-- opt.syntax = 'on'
 opt.number = true
 opt.relativenumber = true
 

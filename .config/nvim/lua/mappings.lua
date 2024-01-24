@@ -16,7 +16,7 @@ map('n', '<C-f>', ':NvimTreeFocus<CR>', opts)
 
 -- Telescope
 map('n', '<leader>ff', ':Telescope find_files<CR>', opts)
-map('n', '<leader>en', ':Telescope find_files cwd=~/.config/nvim/<CR>', opts)
+map('n', '<leader>en', ':Telescope find_files cwd=~/.config/nvim/lua/plugins/<CR>', opts)
 map('n', '<leader>fg', ':Telescope live_grep<CR>', opts)
 map('n', '<leader>fb', ':Telescope buffers<CR>', opts)
 map('n', '<leader>fh', ':Telescope help_tags<CR>', opts)
@@ -27,8 +27,7 @@ map('n', '<leader>fz', ':Telescope spell_suggest<CR>', opts)
 map('n', '<leader>t', '<Plug>PlenaryTestFile', opts)
 
 -- Url View
--- map('n', '<leader>uv', ':UrlView Packer<CR>', { desc="UrlView Packer"})
-map('n', '<leader>uv', '<Cmd>UrlView packer<CR>', { desc = "View plugin links" })
+map('n', '<leader>ul', '<Cmd>UrlView lazy<CR>', { desc = "View plugin links" })
 
 -- Center results when searching
 map('n', 'n', 'nzz', opts)

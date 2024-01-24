@@ -18,7 +18,29 @@ g.loaded_matchparen = 1
 g.loaded_logiPat = 1
 g.loaded_rrhelper = 1
 
-require('impatient')
-require('pluginList')
-require('options')
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+vim.g.mapleader = " "
+require("lazy").setup(
+  "plugins",
+  {
+    install = {
+      colorscheme = {
+        "onenord",
+        "habamax",
+      },
+    },
+  })
+
 require('mappings')
