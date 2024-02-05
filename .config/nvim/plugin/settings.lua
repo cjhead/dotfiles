@@ -18,7 +18,7 @@ opt.completeopt = {'menu', 'menuone', 'noselect', 'noinsert'}
 -- opt.filetype = 'on'
 opt.hidden = true
 opt.cmdheight = 1
-opt.laststatus=3
+opt.laststatus = 3
 opt.startofline = true
 
 opt.smartindent = true
@@ -30,7 +30,7 @@ opt.breakindent = true
 opt.showbreak = string.rep(" ", 3)
 -- opt.linebreak = true
 
-opt.formatoptions = "tcqjro"
+opt.formatoptions = "tcqjro2"
 
 opt.tabstop = 4
 opt.shiftwidth = 4
