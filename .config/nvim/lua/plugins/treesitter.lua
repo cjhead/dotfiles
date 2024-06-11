@@ -1,21 +1,47 @@
 return {
    'nvim-treesitter/nvim-treesitter',
    build = ':TSUpdate',
-   lazy = false,
+   -- lazy = false,
+   event = { "VeryLazy", },
+   init = function(plugin)
+     require("lazy.core.loader").add_to_rtp(plugin)
+     require("nvim-treesitter.query_predicates")
+   end,
+   cmd = {
+     "TSUpdate",
+      "TSUpdate",
+      "TSInstall",
+    },
    config = function()
      local configs = require("nvim-treesitter.configs")
 
-
      configs.setup {
       ensure_installed = {
-        "c"
+        "bash",
+        "c",
+        "git_config",
+        "git_rebase",
+        "gitattributes",
+        "gitcommit",
+        "gitignore",
+        "lua",
+        "luadoc",
+        "make",
+        "markdown",
+        "markdown_inline",
+        "python",
+        "toml",
+        "vim",
+        "vimdoc",
+        "yaml",
       },
-
+      auto_install = true,
+      sync_install = false,
+      ignore_install = {},
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
       },
-
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -25,11 +51,11 @@ return {
           node_decremental = "grm",
         },
       },
-
       indent = {
         -- disable due to python indentation
         enable = false
       },
+      modules = {},
    }
  end
 }

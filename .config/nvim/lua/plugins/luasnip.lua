@@ -1,5 +1,6 @@
 return {
   "L3MON4D3/LuaSnip",
+  event = "BufEnter",
   dependencies = {
     "rafamadriz/friendly-snippets",
     -- "benfowler/telescope-luasnip.nvim",

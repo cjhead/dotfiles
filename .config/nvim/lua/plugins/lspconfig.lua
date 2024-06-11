@@ -84,15 +84,13 @@ return {
     end
 
     local opts = { silent=true }
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-    vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
     vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
     local on_attach = function(client, bufnr)
 
       opts["buffer"] = bufnr
 
+      client.server_capabilities.semanticTokensProvider = nil
       -- require"lsp_signature".on_attach({
       --   bind = true,
       --   handler_opts = {
@@ -136,7 +134,7 @@ return {
     -- Enable the following language servers
     local servers = { 'clangd',
                       'bashls',
-                      'mutt_ls',
+                      -- 'mutt_ls',
                       'marksman',
                       'html',
                       'cssls',
@@ -179,6 +177,7 @@ return {
             },
             ruff = {
               enabled = true,
+              -- executable = "/usr/bin/ruff",
               lineLength = 79,
             },
           }

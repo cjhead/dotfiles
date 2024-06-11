@@ -1,8 +1,7 @@
 ! Colorscheme
 #include "/home/carl/.Xresources.d/themes/nord"
-! #include "/home/carl/.Xresources.d/themes/onenord"
 
-st.font: Hack Nerd Font:size=12:antialias=true:autohint=true
+st.font: Hack Nerd Font:size=9:antialias=true:autohint=true
 st.fontalt0: JoyPixels:pixelsize=10:antialias=true:autohint=true
 st.termname: st-256color
 st.shell: /bin/sh
@@ -19,7 +18,7 @@ st.alphaUnfocused: 0.8
 
 dwm.showbar: 1
 dwm.topbar: 1
-dwm.font: Hack Nerd Font:size=10:antialias=true:autohint=true
+dwm.font: Hack Nerd Font:size=8:antialias=true:autohint=true
 dwm.borderpx: 1
 dwm.snap: 32
 dwm.nmaster: 1

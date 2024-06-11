@@ -1,5 +1,7 @@
 return {
   "vimwiki/vimwiki",
+  -- ft = "vimwiki",
+  event = "BufEnter",
   init = function ()
     vim.g.vimwiki_list = {{path = '~/vimwiki/',
                      links_space_char = '_',

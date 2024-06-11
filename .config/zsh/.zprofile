@@ -9,12 +9,22 @@
 picom -b
 dunst &
 udiskie &
+easyeffects --gapplication-service &
 
 # Turn off screen saver
 xset s off
 
 # Turn off Energy Star features
 xset -dpms
+
+# Add font paths for xorg
+xset +fp /usr/share/fonts/local
+xset +fp /usr/share/fonts/noto
+xset +fp /usr/share/fonts/TTF
+xset +fp /usr/share/fonts/OTF
+xset fp rehash
+
+xrdb -merge ~/.Xresources
 
 # Needs to be exported before statusbar runs so scripts are sourced in time.
 export PATH=$PATH:~/.scripts:~/.local/bin:~/.local/bin/statusbar

@@ -1,6 +1,6 @@
 set guioptions ''
-# set recolor
 set scroll-wrap
 set window-title-basename 'true'
 set window-title-page 'true'
 set statusbar-basename 'true'
+set database 'sqlite'
